@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "590040855060-vi92l65ed7jvmp46cvr6aggb5e5q913o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.aqtsoft.clonefoody",
+            "certificate_hash": "6c274eeeceda15dcd984839b09673b2cd01c2210"
+          }
+        },
+        {
           "client_id": "590040855060-nbgp64eo7pm92d83cta842hckjet40hm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

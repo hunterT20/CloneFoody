@@ -3,4 +3,7 @@
     <string name="version_app">Version</string>
     <string name="loading">Đang tải...</string>
     <string name="name_company">HunterIT</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="dangnhap">Đăng nhập</string>
 </resources>
