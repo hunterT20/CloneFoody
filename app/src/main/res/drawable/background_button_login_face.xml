@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
-            <solid android:color="@color/Login_Phone" />
+            <solid android:color="@color/Login_face" />
             <corners android:radius="2dp"/>
         </shape>
     </item>
