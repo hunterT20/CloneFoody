@@ -5,4 +5,6 @@
     <color name="colorAccent">#ffffff</color>
     <color name="Login_Phone">#0aa553</color>
     <color name="Login_face">#3B5998</color>
+    <color name="Login_google">#DE5144</color>
+    <color name="Login_drawable">#b7b7b7</color>
 </resources>

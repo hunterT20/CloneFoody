@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CloneFoody</string>
+    <string name="facebook_app_id">343258069463864</string>
     <string name="version_app">Version</string>
-    <string name="loading">Đang tải...</string>
+    <string name="loading">Đang tải…</string>
     <string name="name_company">HunterIT</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
