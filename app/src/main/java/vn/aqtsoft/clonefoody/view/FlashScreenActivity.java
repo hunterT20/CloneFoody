@@ -32,8 +32,8 @@ public class FlashScreenActivity extends AppCompatActivity{
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(FlashScreenActivity.this,LoginActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(FlashScreenActivity.this,LoginActivity.class));
+                    finish();
                 }
             },2000);
         } catch (PackageManager.NameNotFoundException e) {
