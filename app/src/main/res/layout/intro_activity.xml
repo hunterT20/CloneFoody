@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#cd2027"
     android:fitsSystemWindows="true"
-    tools:context="vn.aqtsoft.clonefoody.view.FlashScreenActivity">
+    tools:context="vn.aqtsoft.clonefoody.view.IntroActivity">
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -28,13 +28,12 @@
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <TextView
-        android:id="@+id/txtvVersionApp"
+        android:id="@+id/txtv_VersionApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtvNameCompany"
-        android:layout_alignStart="@+id/txtvNameCompany"
+        android:layout_alignLeft="@+id/txtv_NameCompany"
+        android:layout_alignStart="@+id/txtv_NameCompany"
         android:layout_below="@+id/imageView"
-        android:text="TextView"
         android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,10 +43,10 @@
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/txtvNameCompany"
+        android:layout_above="@+id/txtv_NameCompany"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/txtvNameCompany"
+        app:layout_constraintBottom_toTopOf="@+id/txtv_NameCompany"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -61,7 +60,7 @@
             tools:targetApi="lollipop" />
 
         <TextView
-            android:id="@+id/txtvLoading"
+            android:id="@+id/txtv_Loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,7 +70,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txtvNameCompany"
+        android:id="@+id/txtv_NameCompany"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

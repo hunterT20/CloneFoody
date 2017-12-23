@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "vn.aqtsoft.clonefoody"
         minSdkVersion 16
@@ -24,10 +24,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-storage:11.4.2'
-    implementation 'com.google.firebase:firebase-auth:11.4.2'
-    implementation 'com.google.firebase:firebase-firestore:11.4.2'
-    implementation 'com.google.android.gms:play-services-auth:11.4.2'
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-firestore:11.8.0'
+    implementation 'com.google.android.gms:play-services-auth:11.8.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.27.0'
 
     implementation 'com.android.support:appcompat-v7:26.1.0'

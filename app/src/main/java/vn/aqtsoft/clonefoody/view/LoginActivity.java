@@ -1,32 +1,239 @@
 package vn.aqtsoft.clonefoody.view;
 
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import vn.aqtsoft.clonefoody.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener{
+    public static int REQUEST_CODE_LOGIN_GOOGLE = 99;
+    public static int CHECK_PROVIDER_LOGIN = 0;
+    private GoogleApiClient client;
+    private FirebaseAuth firebaseAuth;
+
+    private CallbackManager callbackManager;
+    private FacebookCallback<LoginResult> loginResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login_activity);
+        ButterKnife.bind(this);
+        printKeyHash(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        callbackManager = CallbackManager.Factory.create();
+        initFaceBook();
+        LoginManager.getInstance().registerCallback(callbackManager, loginResult);
 
         addViews();
+        createClientGoogle();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(this);
     }
 
     private void addViews() {
+
+    }
+
+    /**
+     * Khởi tạo client Google
+     */
+    private void createClientGoogle(){
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder()
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        client = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions)
+                .build();
+    }
+
+
+    /**
+     * Mở Fragment đăng nhập google
+     */
+    private void LoginGoogle(){
+        CHECK_PROVIDER_LOGIN = 1;
+        Intent intentGoogle = Auth.GoogleSignInApi.getSignInIntent(client);
+        startActivityForResult(intentGoogle,REQUEST_CODE_LOGIN_GOOGLE);
+    }
+
+
+    /**
+     * Dùng tokenID để chứng thưc đăng nhập Firebase
+     * @param tokenID: Token ID
+     */
+    private void onEventLoginFirebase(String tokenID){
+        AuthCredential authCredential;
+
+        switch (CHECK_PROVIDER_LOGIN){
+            case 1:
+                authCredential = GoogleAuthProvider.getCredential(tokenID, null);
+                firebaseAuth.signInWithCredential(authCredential);
+                break;
+            case 2:
+                authCredential = FacebookAuthProvider.getCredential(tokenID);
+                firebaseAuth.signInWithCredential(authCredential);
+
+        }
+    }
+
+
+    /**
+     * Xử lý dữ liệu trả về từ Fragment đăng nhập google
+     * @param requestCode:
+     * @param resultCode: trạng thái result (true/false)
+     * @param data: dữ liệu trả về
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_LOGIN_GOOGLE){
+            if (resultCode == RESULT_OK){
+                GoogleSignInResult signInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                GoogleSignInAccount account = signInResult.getSignInAccount();
+                assert account != null;
+                String Token_ID = account.getIdToken();
+                onEventLoginFirebase(Token_ID);
+            }
+        }else {
+            callbackManager.onActivityResult(requestCode,resultCode,data);
+        }
+    }
+
+
+    /**
+     * Event click button login bằng gmail
+     */
+    @OnClick(R.id.btn_Login_Google)
+    public void onLoginGoogleClick(){
+        LoginGoogle();
+    }
+
+
+    private void initFaceBook() {
+        loginResult = new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                CHECK_PROVIDER_LOGIN = 2;
+                onEventLoginFirebase(loginResult.getAccessToken().getToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.e("initFacebook", "onCancel: ");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e("initFacebook", "onError: ");
+            }
+        };
+    }
+
+    @OnClick(R.id.btn_Login_Face)
+    public void onLoginFacebookClick(){
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email"));
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+
+    /**
+     * Bắt trạng thái đăng nhập của user (có/không)
+     */
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null){
+            Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static String printKeyHash(Activity context) {
+        PackageInfo packageInfo;
+        String key = null;
+        try {
+            //getting application package name, as defined in manifest
+            String packageName = context.getApplicationContext().getPackageName();
+
+            //Retriving package info
+            packageInfo = context.getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_SIGNATURES);
+
+            Log.e("Package Name=", context.getApplicationContext().getPackageName());
+
+            for (Signature signature : packageInfo.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                key = new String(Base64.encode(md.digest(), 0));
+
+                // String key = new String(Base64.encodeBytes(md.digest()));
+                Log.e("Key Hash=", key);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("Name not found", e1.toString());
+        }
+        catch (NoSuchAlgorithmException e) {
+            Log.e("No such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
+
+        return key;
     }
 }

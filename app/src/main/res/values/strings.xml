@@ -7,4 +7,15 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="dangnhap">Đăng nhập</string>
+    <string name="todo">TODO</string>
+    <string name="so_dien_thoai">Số điện thoại</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="dang_nhap_bang_tai_khoan_cua_ban">Hoặc đăng nhập bằng tài khoản của bạn</string>
+    <string name="dia_chi_email_cua_ban">Địa chỉ email của bạn</string>
+    <string name="mat_khau_cua_ban">Mật khẩu của bạn</string>
+    <string name="dang_nhap">Đăng nhập</string>
+    <string name="quen_mat_khau">Quên mật khẩu?</string>
+    <string name="dang_ky">Đăng ký</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

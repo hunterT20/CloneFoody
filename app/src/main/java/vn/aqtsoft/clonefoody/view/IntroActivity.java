@@ -11,18 +11,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import vn.aqtsoft.clonefoody.R;
 
-public class FlashScreenActivity extends AppCompatActivity{
-    private TextView txtvVersionApp;
+public class IntroActivity extends AppCompatActivity{
+    @BindView(R.id.txtv_VersionApp) TextView txtvVersionApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
-        setContentView(R.layout.activity_flashscreen);
-
-        txtvVersionApp = findViewById(R.id.txtvVersionApp);
+        setContentView(R.layout.intro_activity);
+        ButterKnife.bind(this);
 
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
@@ -32,7 +33,7 @@ public class FlashScreenActivity extends AppCompatActivity{
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(FlashScreenActivity.this,LoginActivity.class));
+                    startActivity(new Intent(IntroActivity.this,LoginActivity.class));
                     finish();
                 }
             },2000);
@@ -41,9 +42,13 @@ public class FlashScreenActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Set full màn hình có hiển thị thanh status nếu Version android > Kitkat
+     * nếu < kitkat sẽ không hiển thị thanh stattus
+     */
     public void setFullScreen() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
+            Window w = getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }else {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
