@@ -1,4 +1,4 @@
-package vn.aqtsoft.clonefoody;
+package vn.aqtsoft.clonefoody.data.services.notification;
 
 import android.content.Context;
 import android.content.Intent;

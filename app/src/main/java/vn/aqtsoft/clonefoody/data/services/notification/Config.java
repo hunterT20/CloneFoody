@@ -1,4 +1,4 @@
-package vn.aqtsoft.clonefoody;
+package vn.aqtsoft.clonefoody.data.services.notification;
 
 public class Config {
     // global topic to receive app wide push notifications

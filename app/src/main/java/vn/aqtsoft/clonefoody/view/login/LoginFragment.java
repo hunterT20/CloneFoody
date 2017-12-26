@@ -1,17 +1,15 @@
-package vn.aqtsoft.clonefoody.view;
+package vn.aqtsoft.clonefoody.view.login;
+
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -24,24 +22,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import vn.aqtsoft.clonefoody.R;
+import vn.aqtsoft.clonefoody.view.MainActivity;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener{
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class LoginFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener{
     public static int REQUEST_CODE_LOGIN_GOOGLE = 99;
     public static int CHECK_PROVIDER_LOGIN = 0;
     private GoogleApiClient client;
@@ -50,11 +47,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private CallbackManager callbackManager;
     private FacebookCallback<LoginResult> loginResult;
 
+    public LoginFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.login_login_fragment, container, false);
+        ButterKnife.bind(this,view);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -64,16 +67,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         addViews();
         createClientGoogle();
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         firebaseAuth.addAuthStateListener(this);
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         firebaseAuth.removeAuthStateListener(this);
     }
@@ -91,8 +95,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .requestEmail()
                 .build();
 
-        client = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
+        client = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(),this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions)
                 .build();
     }
@@ -135,10 +139,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
      * @param data: dữ liệu trả về
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_LOGIN_GOOGLE){
-            if (resultCode == RESULT_OK){
+            if (resultCode == Activity.RESULT_OK){
                 GoogleSignInResult signInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 GoogleSignInAccount account = signInResult.getSignInAccount();
                 assert account != null;
@@ -185,6 +189,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email"));
     }
 
+    @OnClick(R.id.btn_DangKy)
+    public void onLoginDefaultClick(){
+        ((LoginActivity)getActivity()).callFragment(new RegisterFragment());
+    }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -199,7 +208,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(getActivity(), MainActivity.class));
         }
     }
+
 }

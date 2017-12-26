@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import vn.aqtsoft.clonefoody.Config;
-import vn.aqtsoft.clonefoody.NotificationUtils;
+import vn.aqtsoft.clonefoody.data.services.notification.Config;
+import vn.aqtsoft.clonefoody.data.services.notification.NotificationUtils;
 import vn.aqtsoft.clonefoody.R;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package vn.aqtsoft.clonefoody;
+package vn.aqtsoft.clonefoody.data.services.notification;
 
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import vn.aqtsoft.clonefoody.R;
 
 public class NotificationUtils {
     private static String TAG = NotificationUtils.class.getSimpleName();

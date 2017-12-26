@@ -1,4 +1,4 @@
-package vn.aqtsoft.clonefoody.view;
+package vn.aqtsoft.clonefoody.view.flash;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -14,15 +14,16 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import vn.aqtsoft.clonefoody.R;
+import vn.aqtsoft.clonefoody.view.login.LoginActivity;
 
-public class IntroActivity extends AppCompatActivity{
+public class FlashActivity extends AppCompatActivity{
     @BindView(R.id.txtv_VersionApp) TextView txtvVersionApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
-        setContentView(R.layout.intro_activity);
+        setContentView(R.layout.flash_activity);
         ButterKnife.bind(this);
 
         try {
@@ -33,7 +34,7 @@ public class IntroActivity extends AppCompatActivity{
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(IntroActivity.this,LoginActivity.class));
+                    startActivity(new Intent(FlashActivity.this,LoginActivity.class));
                     finish();
                 }
             },2000);

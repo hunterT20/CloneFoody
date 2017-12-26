@@ -17,7 +17,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".view.IntroActivity"
+            android:name=".view.flash.FlashActivity"
             android:theme="@style/AppTheme.Trans">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,18 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.LoginActivity" />
+        <activity android:name=".view.login.LoginActivity" />
         <activity android:name=".view.MainActivity" />
 
         <!-- Firebase Notifications -->
-        <service android:name=".MyFirebaseMessagingService"
+        <service android:name=".data.services.notification.MyFirebaseMessagingService"
             tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".MyFirebaseInstanceIDService"
+        <service android:name=".data.services.notification.MyFirebaseInstanceIDService"
             tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />

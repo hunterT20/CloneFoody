@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#cd2027"
     android:fitsSystemWindows="true"
-    tools:context="vn.aqtsoft.clonefoody.view.IntroActivity">
+    tools:context="vn.aqtsoft.clonefoody.view.flash.FlashActivity">
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"

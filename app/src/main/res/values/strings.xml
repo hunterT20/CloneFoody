@@ -18,4 +18,12 @@
     <string name="quen_mat_khau">Quên mật khẩu?</string>
     <string name="dang_ky">Đăng ký</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="khong_su_dung_thong_tin">Chúng tôi sẽ không sử dụng thông tin của bạn với bất kỳ mục tiêu nào khác.</string>
+    <string name="nhap_lai_mat_khau">Nhập lại mật khẩu</string>
+    <string name="ten_hien_thi">Tên hiên thị</string>
+    <string name="dong_y_voi">Bằng cách đăng ký, bạn đồng ý với</string>
+    <string name="dieu_khoan_su_dung">Điều khoản sử dụng</string>
 </resources>
