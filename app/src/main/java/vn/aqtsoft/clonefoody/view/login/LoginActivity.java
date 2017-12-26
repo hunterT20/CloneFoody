@@ -8,6 +8,7 @@ import butterknife.ButterKnife;
 import vn.aqtsoft.clonefoody.R;
 
 public class LoginActivity extends AppCompatActivity{
+    public String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

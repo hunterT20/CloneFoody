@@ -48,7 +48,7 @@ public class RegisterFragment extends Fragment {
 
     @OnClick(R.id.btn_Register_Default)
     public void onRegisterDefaultClick(){
-        String email = edt_Email.getText().toString().trim();
+        final String email = edt_Email.getText().toString().trim();
         String password = edt_Password.getText().toString().trim();
         String password_config = edt_Password_config.getText().toString().trim();
         String username = edt_Username.getText().toString().trim();
@@ -66,6 +66,8 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     Toast.makeText(getContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                    ((LoginActivity)getActivity()).callFragment(new LoginFragment());
+                    ((LoginActivity)getActivity()).email = email;
                 }
             });
         }

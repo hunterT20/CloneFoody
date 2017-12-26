@@ -82,6 +82,13 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         firebaseAuth.removeAuthStateListener(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        client.stopAutoManage(getActivity());
+        client.disconnect();
+    }
+
     private void addViews() {
 
     }

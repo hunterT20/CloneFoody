@@ -94,7 +94,7 @@
                 android:drawableTint="@color/Login_drawable"
                 android:ems="10"
                 android:hint="@string/nhap_lai_mat_khau"
-                android:inputType="textPersonName"
+                android:inputType="textPassword"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textColorLink="@color/Login_Phone"
@@ -112,7 +112,7 @@
                 android:drawableTint="@color/Login_drawable"
                 android:ems="10"
                 android:hint="@string/ten_hien_thi"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textSize="14sp" />
