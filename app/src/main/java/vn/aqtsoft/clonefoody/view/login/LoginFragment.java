@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -22,7 +24,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +35,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Arrays;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import vn.aqtsoft.clonefoody.R;
@@ -39,6 +45,9 @@ import vn.aqtsoft.clonefoody.view.MainActivity;
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener{
+    @BindView(R.id.edt_Email)    EditText edt_Email;
+    @BindView(R.id.edt_Password) EditText edt_Password;
+
     public static int REQUEST_CODE_LOGIN_GOOGLE = 99;
     public static int CHECK_PROVIDER_LOGIN = 0;
     private GoogleApiClient client;
@@ -53,7 +62,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.login_login_fragment, container, false);
@@ -65,7 +74,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         initFaceBook();
         LoginManager.getInstance().registerCallback(callbackManager, loginResult);
 
-        addViews();
         createClientGoogle();
         return view;
     }
@@ -85,12 +93,27 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     @Override
     public void onPause() {
         super.onPause();
+        assert getActivity() != null;
         client.stopAutoManage(getActivity());
         client.disconnect();
     }
 
-    private void addViews() {
+    /**
+     * Đăng nhập bằng email và password
+     */
+    @OnClick(R.id.btn_Login_Default)
+    public void onLoginDefaultClick(){
+        String email = edt_Email.getText().toString();
+        String password = edt_Password.getText().toString();
 
+        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()){
+                    Toast.makeText(getActivity(), "Tài khoản hoặc mật khẩu không tồn tại!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**
@@ -102,6 +125,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 .requestEmail()
                 .build();
 
+        assert getActivity() != null;
         client = new GoogleApiClient.Builder(getActivity())
                 .enableAutoManage(getActivity(),this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions)
@@ -197,7 +221,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     }
 
     @OnClick(R.id.btn_DangKy)
-    public void onLoginDefaultClick(){
+    public void onSignUpDefaultClick(){
+        assert getActivity() != null;
         ((LoginActivity)getActivity()).callFragment(new RegisterFragment());
     }
 

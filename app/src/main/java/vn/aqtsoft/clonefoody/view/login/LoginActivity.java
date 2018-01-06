@@ -6,8 +6,9 @@ import android.os.Bundle;
 
 import butterknife.ButterKnife;
 import vn.aqtsoft.clonefoody.R;
+import vn.aqtsoft.clonefoody.util.CustomActivity;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends CustomActivity{
     public String email;
 
     @Override

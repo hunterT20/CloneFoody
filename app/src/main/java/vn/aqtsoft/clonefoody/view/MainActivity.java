@@ -19,8 +19,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import vn.aqtsoft.clonefoody.data.services.notification.Config;
 import vn.aqtsoft.clonefoody.data.services.notification.NotificationUtils;
 import vn.aqtsoft.clonefoody.R;
+import vn.aqtsoft.clonefoody.util.CustomActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends CustomActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private TextView txtRegId, txtMessage;

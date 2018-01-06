@@ -7,4 +7,5 @@
     <color name="Login_face">#3b5998</color>
     <color name="Login_google">#DE5144</color>
     <color name="Login_drawable">#b7b7b7</color>
+    <color name="launch_background">#cd2027</color>
 </resources>
